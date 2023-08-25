@@ -1,38 +1,43 @@
 .App {
   text-align: center;
+  margin-top: 50px;
+  font-family: 'Arial', sans-serif;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+h1 {
+  color: #4CAF50;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.input-section {
+  margin-bottom: 20px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+input {
+  padding: 10px;
+  font-size: 16px;
+  margin-right: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.participants {
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-wrap: wrap;  /* 이 부분을 추가 */
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+
+.participant {
+  margin: 10px;
+}
+
+.highlight {
+  background-color: yellow;
+}
+
+.draw-button {
+  padding: 16px 32px;
+  font-size: 18px;
+  background-color: #008CBA;
   color: white;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  margin-top: 20px;
 }
