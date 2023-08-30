@@ -3,11 +3,22 @@ import { FaUser, FaPlus, FaMinus, FaSmile, FaSadTear } from 'react-icons/fa';
 import './App.css';
 
 function App() {
-    const [numParticipants, setNumParticipants] = useState(5);
+
     const [winner, setWinner] = useState(null);
+    const [numParticipants, setNumParticipants] = useState(5);
+    const [participantStatus, setParticipantStatus] = useState(Array(5).fill(''));
     const [isDrawn, setIsDrawn] = useState(false);
-    const [participantStatus, setParticipantStatus] = useState(Array(5).fill(null));
     const [showAllResults, setShowAllResults] = useState(false);
+    const [shaking, setShaking] = useState(false);
+    const [numLosers, setNumLosers] = useState(2); // '꽝'의 개수 설정
+
+    const shakeParticipants = () => {
+        setShaking(true);
+        drawWinner();
+        setTimeout(() => {
+            setShaking(false);
+        }, 1500);
+    };
 
     const colors = [
         '#FF0000', '#00FF00', '#0000FF',
@@ -17,11 +28,24 @@ function App() {
     ];
 
     const drawWinner = () => {
-        const randomIndex = Math.floor(Math.random() * numParticipants);
-        setWinner(randomIndex);
+        let losers = Array(numLosers).fill('꽝');
+        let winners = Array(numParticipants - numLosers).fill('통과');
+        let shuffled = [...losers, ...winners].sort(() => Math.random() - 0.5);
+        setParticipantStatus(shuffled);
         setIsDrawn(true);
+        setShowAllResults(true);  // 결과를 바로 보여주도록 설정
     };
 
+    const addLoser = () => {
+        if (numLosers < numParticipants - 1) {
+            setNumLosers(numLosers + 1);
+        }
+    };
+    const removeLoser = () => {
+        if (numLosers > 0) {
+            setNumLosers(numLosers - 1);
+        }
+    };
     const reset = () => {
         setIsDrawn(false);
         setWinner(null);
@@ -53,18 +77,24 @@ function App() {
         <div className="App">
             <h1>제비뽑기</h1>
             <div className="input-section">
-                <button onClick={removeParticipant}><FaMinus /></button>
-                <span>{numParticipants}명</span>
-                <button onClick={addParticipant}><FaPlus /></button>
+                <div className="input-title">인원수:</div>
+                <button className="input-button" onClick={removeParticipant}><FaMinus /></button>
+                <span className="input-text">{numParticipants}명</span>
+                <button className="input-button" onClick={addParticipant}><FaPlus /></button>
+                <div className="input-title">꽝 수:</div>
+                <button className="input-button" onClick={removeLoser}><FaMinus /></button>
+                <span className="input-text">{numLosers}개</span>
+                <button className="input-button" onClick={addLoser}><FaPlus /></button>
             </div>
+
             <div className="list-section">
                 <h2>참가자 명단</h2>
                 <div className="participants">
                     {Array.from({ length: numParticipants }, (_, index) => (
                         <div
-                            className="participant"
+                            className={`participant ${shaking ? 'shake' : ''}`}
                             key={index}
-                            style={{ backgroundColor: showAllResults ? colors[index] : 'transparent' }}
+                            style={{ color: showAllResults ? colors[index] : 'black', backgroundColor: showAllResults ? '#f7f8fb' : '' }}
                         >
                             {showAllResults ? (
                                 participantStatus[index] === '통과' ? <FaSmile size={50} /> : <FaSadTear size={50} />
@@ -72,18 +102,20 @@ function App() {
                                 <FaUser size={50} color={colors[index]} />
                             )}
                             <span>{showAllResults ? participantStatus[index] : ''}</span>
+                            {/* 참가자 번호를 표시하는 부분 */}
+                            <div className="participant-number">{index + 1}번</div>
                         </div>
                     ))}
                 </div>
             </div>
             {isDrawn ? (
                 <>
-                    {!showAllResults && <button className="draw-button" onClick={showResults}>제비뽑기 결과 보기</button>}
-                    <button className="draw-button" onClick={reset}>제비뽑기 다시하기</button>
+                    <button className="draw-button" onClick={reset}>다시하기</button>
                 </>
             ) : (
-                <button className="draw-button" onClick={drawWinner}>제비뽑기 시작!</button>
+                <button className="draw-button" onClick={shakeParticipants}>제비 섞기!</button>
             )}
+
         </div>
     );
 }

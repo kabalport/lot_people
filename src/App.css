@@ -4,13 +4,47 @@
   font-family: 'Arial', sans-serif;
 }
 
+
+
+
 h1 {
   color: #4CAF50;
 }
 
 .input-section {
-  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Add this line */
+  /*background-color: #f2f2f2;*/
+  padding: 10px;
+  border-radius: 8px;
 }
+
+.input-title {
+  font-weight: bold;
+  margin-right: 15px;
+}
+
+.input-button {
+  background: #4CAF50; /* Green background */
+  border: none; /* Remove border */
+  color: white; /* White text */
+  padding: 12px 16px; /* Some padding */
+  font-size: 16px; /* Set a font size */
+  cursor: pointer; /* Mouse pointer on hover */
+  margin: 0 8px; /* Some margin */
+}
+
+.input-text {
+  font-size: 18px;
+  margin: 0 15px;
+}
+
+/* When mouse hovers on the button, change color */
+.input-button:hover {
+  background-color: #45a049;
+}
+
 
 input {
   padding: 10px;
@@ -40,4 +74,27 @@ input {
   background-color: #008CBA;
   color: white;
   margin-top: 20px;
+}
+
+/* ... 기존 CSS ... */
+
+.shake {
+  animation: shake 0.5s;
+  animation-iteration-count: 1;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  50% { transform: translateX(5px); }
+  75% { transform: translateX(-5px); }
+  100% { transform: translateX(0); }
+}
+.click-count {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
